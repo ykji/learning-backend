@@ -7,7 +7,14 @@ import {
   loginUser,
   logOutUser,
   registerUser,
+  getCurrentUser,
+  getWatchHistory,
+  updateUserAvatar,
   refreshAccessToken,
+  updateAccountDetails,
+  updateUserCoverImage,
+  changeCurrentPassword,
+  getUserChannelProfile,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -26,5 +33,23 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logOutUser);
 
 router.route("/refresh-token").post(refreshAccessToken);
+
+router.route("/change-password").post(verifyJWT, changeCurrentPassword);
+
+router.route("/current-user").get(verifyJWT, getCurrentUser);
+
+router.route("/update-details").patch(verifyJWT, updateAccountDetails);
+
+router
+  .route("/avatat")
+  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+
+router
+  .route("/cover-image")
+  .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
+
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile);
+
+router.route("/histroy").get(verifyJWT, getWatchHistory);
 
 export default router;
